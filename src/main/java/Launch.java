@@ -6,6 +6,7 @@ import org.javacord.api.DiscordApiBuilder;
 import util.CommandParser;
 import util.YamlParser;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class Launch {
@@ -14,7 +15,12 @@ public class Launch {
     private static final String config = "config.yml";
 
     public static void main(String[] args) {
-        Map<String, Object> obj = yamlParser.readConfig(config);
+        Map<String, Object> obj = null;
+        try {
+            obj = (Map<String, Object>) yamlParser.read(config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String token = "" ;
         if (obj.containsKey("token"))
             token = (String) obj.get("token");
